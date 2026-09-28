@@ -13,4 +13,4 @@ def test_delivery_days_boundaries(distance, expected):
  
 def test_weight_above_limit_is_rejected():
     with pytest.raises(ValueError):
-        delivery_cost(1, 100) == 999
+        delivery_cost(1, 100)
