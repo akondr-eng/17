@@ -1,22 +1,33 @@
 pipeline {
     agent any
 
+    environment {
+        PYTHON = 'C:\\Users\\Teacher_Kabinet_7\\AppData\\Local\\Programs\\Python\\Python314\\python.exe'
+    }
+
     stages {
+        stage('Проверка Python') {
+            steps {
+                bat '"%PYTHON%" --version'
+                bat '"%PYTHON%" -m pip --version'
+            }
+        }
+
         stage('Установка зависимостей') {
             steps {
-                bat 'python -m pip install -r requirements.txt'
+                bat '"%PYTHON%" -m pip install -r requirements.txt'
             }
         }
 
         stage('Тестирование') {
             steps {
-                bat 'python -m pytest -v --junitxml=test-report.xml'
+                bat '"%PYTHON%" -m pytest -v --junitxml=test-report.xml'
             }
         }
 
-        stage('Создание архива') {
+        stage('Сборка архива') {
             steps {
-                bat 'python -m zipfile -c shipping-module.zip shipping.py CHANGELOG.md'
+                bat '"%PYTHON%" -m zipfile -c shipping-module.zip shipping.py CHANGELOG.md'
             }
         }
     }
